@@ -302,6 +302,13 @@ namespace IPAddressManager
             MessageBox.Show("All DNS addresses have been removed.");
         }
 
-       
+        private void btnPresets_Click(object sender, EventArgs e)
+        {
+            using (var presetsForm = new PresetsForm())
+            {
+                presetsForm.ShowDialog();
+            }
+        }
+
     }
 }

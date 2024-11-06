@@ -183,6 +183,7 @@ namespace IPAddressManager
             this.btnPresets.TabIndex = 14;
             this.btnPresets.Text = "Presets...";
             this.btnPresets.UseVisualStyleBackColor = true;
+            this.btnPresets.Click += new System.EventHandler(this.btnPresets_Click);
             // 
             // Form1
             // 
