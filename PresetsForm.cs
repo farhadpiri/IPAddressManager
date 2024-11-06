@@ -9,9 +9,12 @@ namespace IPAddressManager
     {
         private List<DNSEntry> dnsPresets = new List<DNSEntry>();
         private readonly string presetsFilePath = "dnsPresets.txt"; // File to store DNS presets
+        private Form1 ownerForm; // Reference to the owner form
 
-        public PresetsForm(List<string> existingDnsAddresses)
+        public PresetsForm(List<string> existingDnsAddresses, Form1 owner)
         {
+            ownerForm = owner; // Store the reference to Form1
+
             InitializeComponent();
             LoadPresets();
             LoadDnsAddresses(existingDnsAddresses); // Pass the DNS addresses to the presets form
@@ -58,7 +61,7 @@ namespace IPAddressManager
             var preferredDns = cmbPresetPreferredDns.SelectedItem?.ToString();
             var alternateDns = cmbPresetAlternateDns.SelectedItem?.ToString();
 
-            if (string.IsNullOrWhiteSpace(presetName) || (preferredDns == "None" && alternateDns=="None"))
+            if (string.IsNullOrWhiteSpace(presetName) || (preferredDns == "None" && alternateDns == "None"))
             {
                 MessageBox.Show("Please enter a valid preset name and select a preferred DNS.");
                 return;
@@ -124,19 +127,43 @@ namespace IPAddressManager
             }
         }
 
-    }
-
-    public class DNSEntry
-    {
-        public string Name { get; set; }
-        public string PreferredDns { get; set; }
-        public string AlternateDns { get; set; }
-
-        public DNSEntry(string name, string preferredDns, string alternateDns)
+        private void btnApplyPreset_Click(object sender, EventArgs e)
         {
-            Name = name;
-            PreferredDns = preferredDns;
-            AlternateDns = alternateDns;
+            {
+                if (listBoxPresets.SelectedItem != null)
+                {
+                    var selectedPreset = dnsPresets.Find(p => p.Name == listBoxPresets.SelectedItem.ToString());
+
+                    if (selectedPreset != null)
+                    {
+                        // Get the DNS settings from the selected preset
+                        var preferredDns = selectedPreset.PreferredDns;
+                        var alternateDns = selectedPreset.AlternateDns;
+
+                        // Call the method in Form1 to apply the DNS settings
+                        ownerForm.ApplyDnsSettings(preferredDns, alternateDns); // Use ownerForm reference
+
+                        // Close the PresetsForm
+                        this.Close();
+                    }
+                }
+
+
+            }
+        }
+
+        public class DNSEntry
+        {
+            public string Name { get; set; }
+            public string PreferredDns { get; set; }
+            public string AlternateDns { get; set; }
+
+            public DNSEntry(string name, string preferredDns, string alternateDns)
+            {
+                Name = name;
+                PreferredDns = preferredDns;
+                AlternateDns = alternateDns;
+            }
         }
     }
 }

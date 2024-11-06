@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnApplyPreset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBoxPresets
@@ -138,11 +139,22 @@
             this.label4.TabIndex = 10;
             this.label4.Text = "Altered DNS:";
             // 
+            // btnApplyPreset
+            // 
+            this.btnApplyPreset.Location = new System.Drawing.Point(277, 202);
+            this.btnApplyPreset.Name = "btnApplyPreset";
+            this.btnApplyPreset.Size = new System.Drawing.Size(135, 23);
+            this.btnApplyPreset.TabIndex = 11;
+            this.btnApplyPreset.Text = "Apply DNS Preset";
+            this.btnApplyPreset.UseVisualStyleBackColor = true;
+            this.btnApplyPreset.Click += new System.EventHandler(this.btnApplyPreset_Click);
+            // 
             // PresetsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 261);
+            this.Controls.Add(this.btnApplyPreset);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -174,5 +186,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnApplyPreset;
     }
 }

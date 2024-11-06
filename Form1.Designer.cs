@@ -30,6 +30,8 @@ namespace IPAddressManager
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lblDnsAddress = new System.Windows.Forms.Label();
             this.lblSavedDnsAddresses = new System.Windows.Forms.Label();
             this.cmbPreferredDns = new System.Windows.Forms.ComboBox();
@@ -40,11 +42,18 @@ namespace IPAddressManager
             this.btnClearDns = new System.Windows.Forms.Button();
             this.btnSetDns = new System.Windows.Forms.Button();
             this.listBoxDns = new System.Windows.Forms.ListBox();
-            this.ipAddressControl = new IPAddressManager.IPAddressControl();
             this.btnRemoveAll = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnPresets = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearDNSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.applyPresetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ipAddressControl = new IPAddressManager.IPAddressControl();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblDnsAddress
@@ -140,13 +149,6 @@ namespace IPAddressManager
             this.listBoxDns.TabIndex = 10;
             this.listBoxDns.SelectedIndexChanged += new System.EventHandler(this.listBoxDns_SelectedIndexChanged);
             // 
-            // ipAddressControl
-            // 
-            this.ipAddressControl.Location = new System.Drawing.Point(109, 13);
-            this.ipAddressControl.Name = "ipAddressControl";
-            this.ipAddressControl.Size = new System.Drawing.Size(150, 25);
-            this.ipAddressControl.TabIndex = 4;
-            // 
             // btnRemoveAll
             // 
             this.btnRemoveAll.Location = new System.Drawing.Point(274, 155);
@@ -185,6 +187,58 @@ namespace IPAddressManager
             this.btnPresets.UseVisualStyleBackColor = true;
             this.btnPresets.Click += new System.EventHandler(this.btnPresets_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "notifyIcon";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.clearDNSToolStripMenuItem,
+            this.applyPresetToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(185, 100);
+            // 
+            // showToolStripMenuItem
+            // 
+            this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+            this.showToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
+            this.showToolStripMenuItem.Text = "Show/Maximize";
+            this.showToolStripMenuItem.Click += new System.EventHandler(this.showToolStripMenuItem_Click);
+            // 
+            // clearDNSToolStripMenuItem
+            // 
+            this.clearDNSToolStripMenuItem.Name = "clearDNSToolStripMenuItem";
+            this.clearDNSToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
+            this.clearDNSToolStripMenuItem.Text = "Clear DNS";
+            this.clearDNSToolStripMenuItem.Click += new System.EventHandler(this.clearDNSToolStripMenuItem_Click);
+            // 
+            // applyPresetToolStripMenuItem
+            // 
+            this.applyPresetToolStripMenuItem.Name = "applyPresetToolStripMenuItem";
+            this.applyPresetToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
+            this.applyPresetToolStripMenuItem.Text = "Presets...";
+            this.applyPresetToolStripMenuItem.DropDownOpening += new System.EventHandler(this.applyPresetToolStripMenuItem_DropDownOpening);
+            this.applyPresetToolStripMenuItem.Click += new System.EventHandler(this.applyPresetToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(184, 24);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // ipAddressControl
+            // 
+            this.ipAddressControl.Location = new System.Drawing.Point(109, 13);
+            this.ipAddressControl.Name = "ipAddressControl";
+            this.ipAddressControl.Size = new System.Drawing.Size(150, 25);
+            this.ipAddressControl.TabIndex = 4;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,9 +259,11 @@ namespace IPAddressManager
             this.Controls.Add(this.cmbPreferredDns);
             this.Controls.Add(this.lblSavedDnsAddresses);
             this.Controls.Add(this.lblDnsAddress);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Simple DNS Apply";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,5 +290,11 @@ namespace IPAddressManager
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnPresets;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearDNSToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem applyPresetToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }

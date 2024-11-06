@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+using static IPAddressManager.PresetsForm;
 
 namespace IPAddressManager
 {
@@ -13,14 +15,90 @@ namespace IPAddressManager
     {
         private List<string> dnsAddresses = new List<string>();
         private readonly string dnsFilePath = "dnsAddresses.txt"; // File to store DNS addresses
+        private NotifyIcon notifyIcon;
 
         public Form1()
         {
             InitializeComponent();
+            this.FormClosing += Form1_FormClosing;
 
+            notifyIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Application, // Set your icon here
+                Visible = false, // Initially hidden
+                ContextMenuStrip = contextMenuStrip1 // Assign the ContextMenuStrip
+            };
 
+            notifyIcon.MouseClick += NotifyIcon_MouseClick; // Handle regular click
 
+            contextMenuStrip1.Opening += contextMenuStrip1_Opening; // This assumes you named your ContextMenuStrip "contextMenuStrip1"
         }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Load presets every time the context menu opens
+            ShowPresets();
+        }
+
+        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left) // Regular click to show the form
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Normal;
+                this.BringToFront();
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(endApp) return;
+            e.Cancel = true; // Prevent form from closing
+            this.Hide(); // Hide the form instead
+            notifyIcon.Visible = true; // Show the icon in the tray
+        }
+        bool endApp = false;
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            notifyIcon.Visible = false; // Hide the icon before closing
+            endApp = true;
+            Application.Exit(); // Close the application
+        }
+
+
+        private void ShowPresets()
+        {
+            // Clear existing items in the submenu
+            applyPresetToolStripMenuItem.DropDownItems.Clear();
+
+            // Load presets from a file or however you maintain them
+            if (File.Exists("dnsPresets.txt"))
+            {
+                var lines = File.ReadAllLines("dnsPresets.txt");
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(';');
+                    if (parts.Length == 3)
+                    {
+                        var preset = new DNSEntry(parts[0], parts[1], parts[2]);
+                        ToolStripMenuItem item = new ToolStripMenuItem(preset.Name);
+                        item.Click += (s, e) => ApplyPreset(preset); // Use lambda to call ApplyPreset method
+                        applyPresetToolStripMenuItem.DropDownItems.Add(item);
+                    }
+                }
+            }
+        }
+
+
+        private void ApplyPreset(DNSEntry preset)
+        {
+            if (preset != null)
+            {
+                ApplyDnsSettings(preset.PreferredDns, preset.AlternateDns);
+            }
+        }
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadCurrentDnsSettings(); // Load current DNS settings from Windows
@@ -230,6 +308,7 @@ namespace IPAddressManager
             }
             cmbPreferredDns.SelectedItem = "None";
             cmbAlternateDns.SelectedItem = "None";
+            this.Close();
         }
         // Event: Load event for ipAddressControl (if necessary)
         private void ipAddressControl_Load(object sender, EventArgs e)
@@ -304,11 +383,77 @@ namespace IPAddressManager
 
         private void btnPresets_Click(object sender, EventArgs e)
         {
-            using (var presetsForm = new PresetsForm(dnsAddresses)) // Pass the existing DNS addresses
+            using (var presetsForm = new PresetsForm(dnsAddresses, this)) // Pass the existing DNS addresses
             {
                 presetsForm.ShowDialog();
             }
         }
+
+        public void ApplyDnsSettings(string preferredDns, string alternateDns)
+        {
+            // Update the combo boxes with the preset DNS addresses
+            cmbPreferredDns.SelectedItem = preferredDns;
+            cmbAlternateDns.SelectedItem = alternateDns;
+
+            // Instead of performing a click, call the logic directly
+            SetDnsSettings(new List<string> { preferredDns, alternateDns });
+
+            // Optionally, show a confirmation message
+            MessageBox.Show("DNS settings applied successfully.");
+
+            // Close the Presets form
+            this.Close();
+        }
+
+
+        private void showToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Code to show the main form
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void clearDNSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Code to clear DNS settings
+            ClearDnsSettings();
+            MessageBox.Show("DNS settings cleared and reverted to DHCP.");
+        }
+
+        private void applyPresetToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            // Clear existing items in the submenu
+            applyPresetToolStripMenuItem.DropDownItems.Clear();
+
+            // Load presets from a file
+            if (File.Exists("dnsPresets.txt"))
+            {
+                var lines = File.ReadAllLines("dnsPresets.txt");
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(';');
+                    if (parts.Length == 3)
+                    {
+                        var preset = new DNSEntry(parts[0], parts[1], parts[2]);
+                        ToolStripMenuItem item = new ToolStripMenuItem(preset.Name);
+                        item.Click += (s, ee) => ApplyPreset(preset); // Use lambda to call ApplyPreset method
+                        applyPresetToolStripMenuItem.DropDownItems.Add(item);
+                    }
+                }
+            }
+        }
+        private void applyPresetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Maximize the main form
+            this.WindowState = FormWindowState.Maximized;
+
+            // Show the PresetsForm
+            using (var presetsForm = new PresetsForm(dnsAddresses, this)) // Pass the existing DNS addresses
+            {
+                presetsForm.ShowDialog();
+            }
+        }
+
 
 
     }
