@@ -16,6 +16,7 @@ namespace IPAddressManager
         private List<string> dnsAddresses = new List<string>();
         private readonly string dnsFilePath = "dnsAddresses.txt"; // File to store DNS addresses
         private NotifyIcon notifyIcon;
+        private static Form1 instance; // Static variable to hold the single instance
 
         public Form1()
         {
@@ -32,6 +33,14 @@ namespace IPAddressManager
             notifyIcon.MouseClick += NotifyIcon_MouseClick; // Handle regular click
 
             contextMenuStrip1.Opening += contextMenuStrip1_Opening; // This assumes you named your ContextMenuStrip "contextMenuStrip1"
+                                                                    // Check if an instance already exists
+            if (instance != null)
+            {
+                instance.BringToFront(); // Bring the existing instance to the front
+                this.Close(); // Close the new instance
+                return;
+            }
+            instance = this; // Set the current instance
         }
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
