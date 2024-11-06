@@ -11,9 +11,10 @@ namespace IPAddressManager
 {
     internal static class Program
     {
-    
 
-// Inside Main method
+
+        // Inside Main method
+        [STAThread]
 static void Main()
     {
         bool createdNew;

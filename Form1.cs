@@ -53,9 +53,16 @@ namespace IPAddressManager
         {
             if (e.Button == MouseButtons.Left) // Regular click to show the form
             {
-                this.Show();
-                this.WindowState = FormWindowState.Normal;
-                this.BringToFront();
+
+               
+                    this.Show();
+                    this.WindowState = FormWindowState.Normal;
+                    this.BringToFront();
+                
+                
+                
+
+               
             }
         }
 
@@ -189,7 +196,6 @@ namespace IPAddressManager
             {
                 ClearDnsSettings();
 
-                MessageBox.Show("DNS settings cleared and reverted to DHCP.");
                 return;
             }
 
@@ -407,9 +413,7 @@ namespace IPAddressManager
             // Instead of performing a click, call the logic directly
             SetDnsSettings(new List<string> { preferredDns, alternateDns });
 
-            // Optionally, show a confirmation message
-            MessageBox.Show("DNS settings applied successfully.");
-
+         
             // Close the Presets form
             this.Close();
         }
