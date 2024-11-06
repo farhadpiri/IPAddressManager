@@ -1,0 +1,74 @@
+# Visual Studio
+.vs/
+*.sln
+*.suo
+*.user
+*.userprefs
+*.cache
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.jfm.user
+*.pdb
+*.obj
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.idb
+*.log
+*.tlog
+*.sbr
+*.scc
+*.vspx
+
+# Rider
+.idea/
+*.sln.iml
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bin/
+obj/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.tmp.*
+*.bak
+*.swp
+
+# Visual Studio Code settings
+.vscode/
+
+# Local history for JetBrains IDEs
+.localhistory/
+
+# User-specific files
+*.suo
+*.user
+*.userprefs
+
+# Backup files
+*.bak
+
+# IIS Express
+IISExpress/
+*.vspscc
+
+# Others
+Thumbs.db
+ehthumbs.db
+Desktop.ini
