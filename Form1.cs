@@ -304,11 +304,12 @@ namespace IPAddressManager
 
         private void btnPresets_Click(object sender, EventArgs e)
         {
-            using (var presetsForm = new PresetsForm())
+            using (var presetsForm = new PresetsForm(dnsAddresses)) // Pass the existing DNS addresses
             {
                 presetsForm.ShowDialog();
             }
         }
+
 
     }
 }

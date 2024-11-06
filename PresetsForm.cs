@@ -10,10 +10,28 @@ namespace IPAddressManager
         private List<DNSEntry> dnsPresets = new List<DNSEntry>();
         private readonly string presetsFilePath = "dnsPresets.txt"; // File to store DNS presets
 
-        public PresetsForm()
+        public PresetsForm(List<string> existingDnsAddresses)
         {
             InitializeComponent();
             LoadPresets();
+            LoadDnsAddresses(existingDnsAddresses); // Pass the DNS addresses to the presets form
+        }
+
+        private void LoadDnsAddresses(List<string> existingDnsAddresses)
+        {
+            // Add "None" to combo boxes
+            cmbPresetPreferredDns.Items.Add("None");
+            cmbPresetAlternateDns.Items.Add("None");
+
+            // Add existing DNS addresses to combo boxes
+            foreach (var dns in existingDnsAddresses)
+            {
+                Console.WriteLine(dns);
+                cmbPresetPreferredDns.Items.Add(dns);
+                cmbPresetAlternateDns.Items.Add(dns);
+            }
+            cmbPresetPreferredDns.SelectedItem = "None";
+            cmbPresetAlternateDns.SelectedItem = "None";
         }
 
         private void LoadPresets()
@@ -40,7 +58,7 @@ namespace IPAddressManager
             var preferredDns = cmbPresetPreferredDns.SelectedItem?.ToString();
             var alternateDns = cmbPresetAlternateDns.SelectedItem?.ToString();
 
-            if (string.IsNullOrWhiteSpace(presetName) || preferredDns == "None")
+            if (string.IsNullOrWhiteSpace(presetName) || (preferredDns == "None" && alternateDns=="None"))
             {
                 MessageBox.Show("Please enter a valid preset name and select a preferred DNS.");
                 return;
@@ -105,6 +123,7 @@ namespace IPAddressManager
                 cmbPresetAlternateDns.SelectedItem = selectedPreset.AlternateDns;
             }
         }
+
     }
 
     public class DNSEntry

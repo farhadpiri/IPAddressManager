@@ -30,8 +30,8 @@
         {
             this.listBoxPresets = new System.Windows.Forms.ListBox();
             this.btnAddPreset = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnRemovePreset = new System.Windows.Forms.Button();
+            this.btnUpdatePreset = new System.Windows.Forms.Button();
             this.cmbPresetPreferredDns = new System.Windows.Forms.ComboBox();
             this.cmbPresetAlternateDns = new System.Windows.Forms.ComboBox();
             this.txtPresetName = new System.Windows.Forms.TextBox();
@@ -58,24 +58,26 @@
             this.btnAddPreset.TabIndex = 1;
             this.btnAddPreset.Text = "Add";
             this.btnAddPreset.UseVisualStyleBackColor = true;
+            this.btnAddPreset.Click += new System.EventHandler(this.btnAddPreset_Click);
             // 
-            // button2
+            // btnRemovePreset
             // 
-            this.button2.Location = new System.Drawing.Point(337, 103);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Remove";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnRemovePreset.Location = new System.Drawing.Point(337, 103);
+            this.btnRemovePreset.Name = "btnRemovePreset";
+            this.btnRemovePreset.Size = new System.Drawing.Size(75, 23);
+            this.btnRemovePreset.TabIndex = 2;
+            this.btnRemovePreset.Text = "Remove";
+            this.btnRemovePreset.UseVisualStyleBackColor = true;
+            this.btnRemovePreset.Click += new System.EventHandler(this.btnRemovePreset_Click);
             // 
-            // button3
+            // btnUpdatePreset
             // 
-            this.button3.Location = new System.Drawing.Point(337, 132);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Update";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnUpdatePreset.Location = new System.Drawing.Point(337, 132);
+            this.btnUpdatePreset.Name = "btnUpdatePreset";
+            this.btnUpdatePreset.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdatePreset.TabIndex = 3;
+            this.btnUpdatePreset.Text = "Update";
+            this.btnUpdatePreset.UseVisualStyleBackColor = true;
             // 
             // cmbPresetPreferredDns
             // 
@@ -148,8 +150,8 @@
             this.Controls.Add(this.txtPresetName);
             this.Controls.Add(this.cmbPresetAlternateDns);
             this.Controls.Add(this.cmbPresetPreferredDns);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnUpdatePreset);
+            this.Controls.Add(this.btnRemovePreset);
             this.Controls.Add(this.btnAddPreset);
             this.Controls.Add(this.listBoxPresets);
             this.Name = "PresetsForm";
@@ -163,8 +165,8 @@
 
         private System.Windows.Forms.ListBox listBoxPresets;
         private System.Windows.Forms.Button btnAddPreset;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnRemovePreset;
+        private System.Windows.Forms.Button btnUpdatePreset;
         private System.Windows.Forms.ComboBox cmbPresetPreferredDns;
         private System.Windows.Forms.ComboBox cmbPresetAlternateDns;
         private System.Windows.Forms.TextBox txtPresetName;
