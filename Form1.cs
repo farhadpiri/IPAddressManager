@@ -15,7 +15,6 @@ namespace IPAddressManager
     {
         private List<string> dnsAddresses = new List<string>();
         private readonly string dnsFilePath = "dnsAddresses.txt"; // File to store DNS addresses
-        private NotifyIcon notifyIcon;
         private static Form1 instance; // Static variable to hold the single instance
 
         public Form1()
@@ -23,14 +22,11 @@ namespace IPAddressManager
             InitializeComponent();
             this.FormClosing += Form1_FormClosing;
 
-            notifyIcon = new NotifyIcon
-            {
-                Icon = SystemIcons.Application, // Set your icon here
-                Visible = false, // Initially hidden
-                ContextMenuStrip = contextMenuStrip1 // Assign the ContextMenuStrip
-            };
+            
+            notifyIcon1.Visible = false;
+            notifyIcon1.ContextMenuStrip = contextMenuStrip1;
 
-            notifyIcon.MouseClick += NotifyIcon_MouseClick; // Handle regular click
+            notifyIcon1.MouseClick += NotifyIcon1_MouseClick; // Handle regular click
 
             contextMenuStrip1.Opening += contextMenuStrip1_Opening; // This assumes you named your ContextMenuStrip "contextMenuStrip1"
                                                                     // Check if an instance already exists
@@ -49,7 +45,7 @@ namespace IPAddressManager
             ShowPresets();
         }
 
-        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+        private void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left) // Regular click to show the form
             {
@@ -71,12 +67,12 @@ namespace IPAddressManager
             if(endApp) return;
             e.Cancel = true; // Prevent form from closing
             this.Hide(); // Hide the form instead
-            notifyIcon.Visible = true; // Show the icon in the tray
+            notifyIcon1.Visible = true; // Show the icon in the tray
         }
         bool endApp = false;
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            notifyIcon.Visible = false; // Hide the icon before closing
+            notifyIcon1.Visible = false; // Hide the icon before closing
             endApp = true;
             Application.Exit(); // Close the application
         }
@@ -214,7 +210,6 @@ namespace IPAddressManager
             if (dnsToSet.Count > 0)
             {
                 SetDnsSettings(dnsToSet);
-                MessageBox.Show("DNS settings applied successfully.");
             }
         }
 
@@ -306,7 +301,6 @@ namespace IPAddressManager
         private void btnClearDns_Click(object sender, EventArgs e)
         {
             ClearDnsSettings();
-            MessageBox.Show("DNS settings cleared.");
         }
 
 
@@ -393,7 +387,6 @@ namespace IPAddressManager
             // Save the updated (empty) DNS addresses list to the file
             SaveDnsAddresses();
 
-            MessageBox.Show("All DNS addresses have been removed.");
         }
 
         private void btnPresets_Click(object sender, EventArgs e)
@@ -430,7 +423,6 @@ namespace IPAddressManager
         {
             // Code to clear DNS settings
             ClearDnsSettings();
-            MessageBox.Show("DNS settings cleared and reverted to DHCP.");
         }
 
         private void applyPresetToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
