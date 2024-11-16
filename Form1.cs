@@ -7,7 +7,10 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Windows.Forms;
+
+using System.Threading;
 using static IPAddressManager.PresetsForm;
+using Timer = System.Windows.Forms.Timer;
 
 namespace IPAddressManager
 {
@@ -419,6 +422,64 @@ namespace IPAddressManager
             this.WindowState = FormWindowState.Normal;
         }
 
+
+
+public class AutoCloseMessageBox : Form
+    {
+            private System.Windows.Forms.Timer _timer; // Use fully qualified name
+            private Label _messageLabel;
+
+        public AutoCloseMessageBox(string message, int displayTimeInMilliseconds)
+        {
+            _messageLabel = new Label
+            {
+                Text = message,
+                AutoSize = true,
+                Location = new System.Drawing.Point(20, 20)
+            };
+
+            this.Controls.Add(_messageLabel);
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Size = new System.Drawing.Size(300, 100);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.ShowInTaskbar = false;
+            this.TopMost = true;
+
+            // Initialize the timer to close the form after the specified time
+            _timer = new Timer();
+            _timer.Interval = displayTimeInMilliseconds; // Auto-close time in milliseconds
+            _timer.Tick += (sender, e) => Close();
+            _timer.Start();
+        }
+
+        // Optional: Call this method to show the message box
+        public static void ShowMessage(string message, int displayTimeInMilliseconds = 3000)
+        {
+            using (var msgBox = new AutoCloseMessageBox(message, displayTimeInMilliseconds))
+            {
+                msgBox.ShowDialog();
+            }
+        }
+    }
+
+    private void changeAdapterSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            // Open the Network Connections window using the "ncpa.cpl" command
+            System.Diagnostics.Process.Start("ncpa.cpl");
+
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions (e.g., if there's an issue executing the command)
+            AutoCloseMessageBox.ShowMessage("An error occurred while opening the Network Connections window: " + ex.Message, 1000);
+        }
+    }
+
+
+
+        
         private void clearDNSToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Code to clear DNS settings
